@@ -8,7 +8,7 @@ class Workout(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     duration = db.Column(db.Integer)
-    difficulty = db.Column(db.Enum('Beginner', 'Intermediate', 'Advanced'))
+    difficulty = db.Column(db.Enum('Anfänger', 'Fortgeschritten', 'Profi'))
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))  # Falls User-Tabelle existiert
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
