@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba1b2d75-a9dc-43d7-b76f-efdb0c857bc3" name="Changes" comment="new Workoutlisten">
-      <change afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
+    <list default="true" id="ba1b2d75-a9dc-43d7-b76f-efdb0c857bc3" name="Changes" comment="new Directories with empty files for preparation">
+      <change afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WorkoutList.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/WorkoutList.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WorkoutList.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/WorkoutList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +81,13 @@
       <ReportDescription localRun="true" path="/private/var/folders/z0/6jg71r5j34x7qmmlspb95f700000gn/T/qodana_output/qodana.sarif.json" reportGuid="26cbbdee-1d2a-4dd1-a686-90467721925b" reportId="MVP FITNESS/qodana/2025-09-09" />
     </option>
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/Komponenten" />
+      <recent name="$PROJECT_DIR$/frontend" />
+      <recent name="$PROJECT_DIR$/backend" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -126,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757409687877</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="new Directories with empty files for preparation">
+      <option name="closed" value="true" />
+      <created>1757411335443</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1757411335444</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -144,6 +154,7 @@
     <MESSAGE value="first commmit for the sql models.py" />
     <MESSAGE value="second commit @ a datenbanktabelle with flask" />
     <MESSAGE value="new Workoutlisten" />
-    <option name="LAST_COMMIT_MESSAGE" value="new Workoutlisten" />
+    <MESSAGE value="new Directories with empty files for preparation" />
+    <option name="LAST_COMMIT_MESSAGE" value="new Directories with empty files for preparation" />
   </component>
 </project>
