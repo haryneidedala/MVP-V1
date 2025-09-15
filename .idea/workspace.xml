@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1b2d75-a9dc-43d7-b76f-efdb0c857bc3" name="Changes" comment="new Directories with empty files for preparation">
-      <change afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Login.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Login.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MVP FITNESS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MVP FITNESS.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Login.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/WorkoutList.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/WorkoutList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +42,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:haryneidedala/MVP-V1.git&quot;,
-    &quot;accountId&quot;: &quot;ea8a0ce7-38a8-49ac-bf26-a334be49a10f&quot;
+    &quot;accountId&quot;: &quot;acca58d8-e83d-4c34-bd99-a60361b0a834&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -46,36 +55,26 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="32S7qvuq1rVGAErOWyo03f5HDPO" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Python.models.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.models.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/haryflorianodala/Desktop/Schreibtisch – MacBook Air von Haryneide/MVP FITNESS&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
-  <component name="QodanaHighlightedReportService">
-    <option name="localRunNotPublishedPersistedInfo">
-      <LocalReportPersistedInfo>
-        <option name="path" value="/private/var/folders/z0/6jg71r5j34x7qmmlspb95f700000gn/T/qodana_output/qodana.sarif.json" />
-        <option name="reportGuid" value="26cbbdee-1d2a-4dd1-a686-90467721925b" />
-        <option name="reportName" value="MVP FITNESS/qodana/2025-09-09" />
-      </LocalReportPersistedInfo>
-    </option>
-  </component>
-  <component name="QodanaIsSelectedPersistenceService">
-    <option name="selectedOrLoading" value="true" />
-  </component>
+}</component>
   <component name="QodanaReportsService">
     <option name="descriptions">
       <ReportDescription localRun="true" path="/private/var/folders/z0/6jg71r5j34x7qmmlspb95f700000gn/T/qodana_output/qodana.sarif.json" reportGuid="26cbbdee-1d2a-4dd1-a686-90467721925b" reportId="MVP FITNESS/qodana/2025-09-09" />
@@ -83,15 +82,16 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend" />
+      <recent name="$PROJECT_DIR$/frontend/src" />
       <recent name="$PROJECT_DIR$/frontend/src/Komponenten" />
       <recent name="$PROJECT_DIR$/frontend" />
-      <recent name="$PROJECT_DIR$/backend" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-f78a9d071105-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26574.90" />
+        <option value="bundled-python-sdk-2ee2454479a3-9cdd278e9d02-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.25410.122" />
       </set>
     </attachedChunks>
   </component>
@@ -136,7 +136,23 @@
       <option name="project" value="LOCAL" />
       <updated>1757411335444</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="new Directories with empty files for preparation">
+      <option name="closed" value="true" />
+      <created>1757509507157</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1757509507157</updated>
+    </task>
+    <task id="LOCAL-00006" summary="new Directories with empty files for preparation">
+      <option name="closed" value="true" />
+      <created>1757509532095</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1757509532095</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
