@@ -1,0 +1,112 @@
+/* frontend/src/components/Login.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4d4d50 30%, #040013 70%);
+  padding: 20px;
+}
+
+.login-form {
+  background: rgba(168, 91, 255, 0.705);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(234, 234, 234, 0.2);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #000000;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0f0e30;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #18224f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #5a67d8;
+}
+
+.login-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #e53e3e;
+  background-color: #fed7d7;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #ffffff;
+;
+}
+
+.register-link span {
+  color: #66a8ea;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.srst-heading {
+  font-family: 'Orbitron', sans-serif; /* passt gut zu "serious" vibes */
+  font-size: 3.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #000000a7; /* Basis: schwarz */
+
+  /* Metallic-Grau Verlauf */
+  background: linear-gradient(90deg, #2f2f2f, #7f7f7f, #b3b3b3, #7f7f7f, #1a1a1a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* leichter 3D-Glanz */
+  text-shadow: 
+    1px 2px 3px rgba(0,0,0,0.8),
+    -3px -3px 1px rgba(82, 80, 96, 0.3);
+}

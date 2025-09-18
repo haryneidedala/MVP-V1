@@ -1,15 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext.jsx'; // Korrigierter Pfad
-import Login from './Komponenten/Login.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './Komponenten/ProtectedRoute';
+import Login from './Komponenten/Login';
 import WorkoutList from './Komponenten/WorkoutList';
 import './App.css';
-
-// ProtectedRoute Komponente
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
-  return user ? children : <Navigate to="/login" />;
-};
 
 function App() {
   return (

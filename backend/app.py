@@ -9,9 +9,8 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
-
-CORS(app, resources={r"/*": {"origins": "*"}})
+# CORS für Frontend auf Port 3001 erlauben
+CORS(app, resources={r"/*": {"origins": "http://localhost:3001"}})
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///profiles.db"
@@ -32,14 +31,21 @@ with app.app_context():
     db.create_all()
 
 @app.route('/workouts', methods=['GET'])
+@jwt_required()
 def get_workouts():
-    workouts = Workout.query.all() # <- Holt alle Workouts aus der Tabelle
-    return jsonify([{
-        'id': w.id,
-        'name': w.name,
-        'description': w.description
-    } for w in workouts])                   # <- Sendet sie als JSON zurück (wie ein Paket)
-
+    try:
+        workouts = Workout.query.all()
+        return jsonify([{
+            'id': w.id,
+            'name': w.name,
+            'description': w.description,
+            'duration': w.duration,
+            'difficulty': w.difficulty
+        } for w in workouts])
+    except Exception as e:
+        print(f"Workouts error: {str(e)}")
+        return jsonify({'message': 'Fehler beim Abrufen der Workouts'}), 500
+    
 @app.route('/workouts', methods=['POST'])
 def create_workout():
     data = request.get_json()       # <- Empfängt Daten von React (wie ein Formular)
@@ -54,7 +60,7 @@ def create_workout():
     return jsonify({'message': 'Workout created!'}), 201
 
 # Testbenutzer erstellen (nur für Entwicklung)
-@app.before_first_request
+@app.before_request
 def create_tables():
     db.create_all()
     # Testbenutzer erstellen, falls nicht vorhanden

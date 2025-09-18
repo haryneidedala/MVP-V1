@@ -1,0 +1,174 @@
+.workout-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+}
+
+.workout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eaeaea;
+}
+
+.workout-header h1 {
+  color: #2c3e50;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}
+
+.workouts-content h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.loading, .error, .no-workouts {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #7f8c8d;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.no-workouts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.workout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.workout-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.workout-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workout-card h3 {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.workout-description {
+  color: #7f8c8d;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.workout-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #95a5a6;
+}
+
+.difficulty-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.difficulty-badge.beginner {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.difficulty-badge.intermediate {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.difficulty-badge.advanced {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.workout-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.primary-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.primary-button:hover {
+  background-color: #2980b9;
+}
+
+.secondary-button {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.secondary-button:hover {
+  background-color: #bdc3c7;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.text-button:hover {
+  color: #2980b9;
+}
