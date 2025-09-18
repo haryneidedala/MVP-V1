@@ -11,6 +11,9 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///profiles.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -49,6 +52,18 @@ def create_workout():
     db.session.add(workout)     # <- Fügt sie zur Datenbank hinzu
     db.session.commit()
     return jsonify({'message': 'Workout created!'}), 201
+
+# Testbenutzer erstellen (nur für Entwicklung)
+@app.before_first_request
+def create_tables():
+    db.create_all()
+    # Testbenutzer erstellen, falls nicht vorhanden
+    if not User.query.filter_by(email='test@example.com').first():
+        test_user = User(email='test@example.com', name='Testbenutzer')
+        test_user.set_password('password123')
+        db.session.add(test_user)
+        db.session.commit()
+        print("Testbenutzer erstellt: test@example.com / password123")
 
 if __name__ == "__main__":
     app.run(port=os.getenv("PORT"), debug=True, host="0.0.0.0")
