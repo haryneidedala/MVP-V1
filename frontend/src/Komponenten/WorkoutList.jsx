@@ -14,26 +14,27 @@ const WorkoutList = () => {
         setLoading(true);
         
         // Mock-Daten für Testzwecke
-        if (import.meta.env.VITE_USE_MOCK === 'true') {
+        // if (import.meta.env.VITE_USE_MOCK === 'true') {
+        if (false){
           setTimeout(() => {
             const mockWorkouts = [
               {
                 id: 1,
-                name: "Krafttraining",
+                name: "Krafttraining Mock",
                 description: "Intensives Training für alle Muskelgruppen",
                 duration: 60,
                 difficulty: "Intermediate"
               },
               {
                 id: 2,
-                name: "Yoga Flow",
+                name: "Yoga Flow Mock",
                 description: "Entspannende Yoga-Übungen für Flexibilität",
                 duration: 45,
                 difficulty: "Beginner"
               },
               {
                 id: 3,
-                name: "HIIT Workout",
+                name: "HIIT Workout Mock",
                 description: "Hochintensives Intervalltraining für Ausdauer",
                 duration: 30,
                 difficulty: "Advanced"
