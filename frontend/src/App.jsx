@@ -1,30 +1,43 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
-import ProtectedRoute from './Komponenten/ProtectedRoute';
-import Login from './Komponenten/Login';
-import WorkoutList from './Komponenten/WorkoutList';
-import './App.css';
+import { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
+import Dashboard from "./Komponenten/Dashboard";
+import Login from "./Komponenten/Login";
+import "./App.css";
 
 function App() {
+  const { user, isLoading } = useAuth();
+
+  // Zeige Ladeanzeige während Auth-Status geprüft wird
+  if (isLoading) {
+    return (
+      <div className="loading-app">
+        <div className="loading-spinner">🏋️</div>
+        <p>Lade Fitness App...</p>
+      </div>
+    );
+  }
+
   return (
-    <AuthProvider>
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route 
-              path="/" 
-              element={
-                <ProtectedRoute>
-                  <WorkoutList />
-                </ProtectedRoute>
-              } 
-            />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route
+            path="/login"
+            element={!user ? <Login /> : <Navigate to="/" replace />}
+          />
+          <Route
+            path="/"
+            element={user ? <Dashboard /> : <Navigate to="/login" replace />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

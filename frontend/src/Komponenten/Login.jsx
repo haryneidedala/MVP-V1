@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import './Login.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import "./Login.css";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-  
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -18,54 +17,56 @@ const Login = () => {
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       // Mock-Login für Testzwecke
-      if (import.meta.env.VITE_USE_MOCK === 'true') {
+      if (import.meta.env.VITE_USE_MOCK === "true") {
         // Simuliere eine API-Antwort
         setTimeout(() => {
           login(
             {
               id: 1,
               email: credentials.email,
-              name: 'Testbenutzer'
+              name: "Testbenutzer",
             },
-            'mock-token-123'
+            "mock-token-123"
           );
           setLoading(false);
-          navigate('/');
+          navigate("/");
         }, 1000);
         return;
       }
 
       // Echter Login
-      const response = await fetch('http://localhost:5001/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5001/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(credentials),
       });
 
       const data = await response.json();
 
+      console.log(data);
+
       if (response.ok) {
-        login(data.user, data.token);
-        navigate('/');
+        login(data.user_id, data.access_token);
+        navigate("/");
       } else {
-        setError(data.message || 'Login fehlgeschlagen');
+        setError(data.message || "Login fehlgeschlagen");
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setError('Verbindungsfehler. Ist das Backend erreichbar?');
+      console.error("Login error:", error);
+      setError("Verbindungsfehler. Ist das Backend erreichbar?");
     } finally {
       setLoading(false);
     }
@@ -79,7 +80,7 @@ const Login = () => {
         <h2>Anmelden</h2>
         <form onSubmit={handleSubmit}>
           {error && <div className="error-message">{error}</div>}
-          
+
           <div className="form-group">
             <label htmlFor="email">E-Mail</label>
             <input
@@ -92,7 +93,7 @@ const Login = () => {
               placeholder="test@example.com"
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="password">Passwort</label>
             <input
@@ -105,13 +106,9 @@ const Login = () => {
               placeholder="password123"
             />
           </div>
-          
-          <button 
-            type="submit" 
-            className="login-button"
-            disabled={loading}
-          >
-            {loading ? 'Lade...' : 'Anmelden'}
+
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Lade..." : "Anmelden"}
           </button>
         </form>
 
