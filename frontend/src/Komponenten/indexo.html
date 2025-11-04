@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Exercise Finder</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Exercise Finder</h1>
+    </header>
+
+    <main>
+      <section class="search-section">
+        <h2>Übungen suchen</h2>
+        <form id="search-form" class="search-form">
+          <div class="form-group">
+            <label for="muscle">Muskelgruppe:</label>
+            <select id="muscle" name="muscle">
+              <option value="">Alle</option>
+              <option value="bizeps">Bizeps</option>
+              <option value="brust">Brust</option>
+              <option value="rücken">Rücken</option>
+              <option value="beine">Beine</option>
+              <option value="bauch">Bauch</option>
+              <option value="schultern">Schultern</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="type">Übungstyp:</label>
+            <select id="type" name="type">
+              <option value="">Alle</option>
+              <option value="kraft">Kraft</option>
+              <option value="stretching">Stretching</option>
+              <option value="kardio">Kardio</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="difficulty">Schwierigkeit:</label>
+            <select id="difficulty" name="difficulty">
+              <option value="">Alle</option>
+              <option value="anfänger">Anfänger</option>
+              <option value="fortgeschritten">Fortgeschritten</option>
+              <option value="profi">Profi</option>
+            </select>
+          </div>
+
+          <button type="submit">Übungen suchen</button>
+          <button type="button" id="load-chest-btn">Brust-Übungen</button>
+        </form>
+      </section>
+
+      <section class="results-section">
+        <h2>Gefundene Übungen</h2>
+        <div id="exercises-container" class="exercises-container">
+          <!-- Hier werden die Übungen angezeigt -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Zuerst die API-Funktionen, dann die App-Logik -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
