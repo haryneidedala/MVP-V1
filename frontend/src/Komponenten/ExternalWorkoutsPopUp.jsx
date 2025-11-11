@@ -1,21 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import ExternalWorkoutList from "./ExternalWorkoutlist";
 import "./ExternalWorkoutsPopup.css";
 
-const ExternalWorkoutsPopup = ({ isOpen, onClose }) => {
-  const popupRef = useRef(null);
-
+const ExternalWorkoutsPopup = ({ isOpen, onClose, userId }) => {
   // Schließen mit ESC-Taste
   useEffect(() => {
     const handleEscKey = (event) => {
-      if (event.keyCode === 27) {
+      if (event.key === "Escape") {
         onClose();
       }
     };
 
     if (isOpen) {
       document.addEventListener("keydown", handleEscKey);
-      // Verhindere Scrollen im Hintergrund
       document.body.style.overflow = "hidden";
     }
 
@@ -31,21 +28,20 @@ const ExternalWorkoutsPopup = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleCloseClick = (e) => {
-    e.stopPropagation();
-    onClose();
-  };
-
-  if (!isOpen) return null;
+  // WICHTIG: Wenn nicht geöffnet, return null
+  if (!isOpen) {
+    return null;
+  }
 
   return (
-    <div className="popup-overlay" onClick={handleOverlayClick} ref={popupRef}>
-      <div className="popup-content">
+    <div className="popup-overlay" onClick={handleOverlayClick}>
+      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
         <div className="popup-header">
           <h2>Externe Workouts durchsuchen</h2>
           <button
             className="close-popup"
-            onClick={handleCloseClick}
+            onClick={onClose}
+            type="button"
             aria-label="Popup schließen"
           >
             &times;
@@ -53,7 +49,7 @@ const ExternalWorkoutsPopup = ({ isOpen, onClose }) => {
         </div>
 
         <div className="popup-body">
-          <ExternalWorkoutList />
+          <ExternalWorkoutList userId={userId} onWorkoutSubscribed={onClose} />
         </div>
       </div>
     </div>

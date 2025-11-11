@@ -3,16 +3,22 @@ import {
   fetchExercisesFromAPI,
   SUPPORTED_VALUES,
   GERMAN_TRANSLATIONS,
+  subscribeToWorkout,
 } from "../services/externalWorkoutsAPI";
-import "./ExternalWorkoutlist.css";
+import "./ExternalWorkoutList.css";
+import { useAuth } from "../contexts/AuthContext";
 
-const ExternalWorkoutList = () => {
+const ExternalWorkoutList = ({ onWorkoutSubscribed }) => {
   const [selectedMuscle, setSelectedMuscle] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("");
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [subscribing, setSubscribing] = useState({});
+  const auth = useAuth();
+
+  console.log("auth:", auth);
 
   const handleShowWorkouts = async () => {
     if (!selectedMuscle && !selectedType && !selectedDifficulty) {
@@ -42,6 +48,43 @@ const ExternalWorkoutList = () => {
       setWorkouts([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSubscribe = async (exercise) => {
+    const userId = auth.user;
+    if (!userId) {
+      setError("Benutzer nicht gefunden. Bitte erneut anmelden.");
+      console.log("user not found");
+
+      return;
+    }
+    console.log("user found:", userId);
+
+    setSubscribing((prev) => ({ ...prev, [exercise.name]: true }));
+
+    try {
+      // Hier müssten wir die Exercise-Daten in unser Workout-Format konvertieren
+      // und an das Backend senden, um sie zu speichern und zu abonnieren
+
+      // Fürs Erste: Sende eine einfache Subscribe-Anfrage
+      console.log("Exercise", exercise);
+      const result = await subscribeToWorkout(userId, exercise.workout_id);
+
+      if (result.success) {
+        // Erfolgreich abonniert
+        if (onWorkoutSubscribed) {
+          onWorkoutSubscribed();
+        }
+        alert(`Workout "${exercise.name}" erfolgreich abonniert!`);
+      } else {
+        setError(result.message || "Fehler beim Abonnieren");
+      }
+    } catch (err) {
+      console.error("Fehler beim Abonnieren:", err);
+      setError("Fehler beim Abonnieren des Workouts");
+    } finally {
+      setSubscribing((prev) => ({ ...prev, [exercise.name]: false }));
     }
   };
 
@@ -133,18 +176,25 @@ const ExternalWorkoutList = () => {
               <div key={index} className="workout-item">
                 <h4>{workout.name}</h4>
                 <div className="workout-meta">
-                  <span>Muskel: {workout.muscle}</span>
-                  <span>Typ: {workout.type}</span>
-                  <span>Schwierigkeit: {workout.difficulty}</span>
+                  <span className="muscle">{workout.muscle}</span>
+                  <span className="type">{workout.type}</span>
+                  <span className="difficulty">{workout.difficulty}</span>
                 </div>
                 {workout.instructions && (
                   <p className="instructions">{workout.instructions}</p>
                 )}
                 {workout.equipment && (
-                  <p className="equipment">
-                    Benötigtes Equipment: {workout.equipment}
-                  </p>
+                  <p className="equipment">Gerät: {workout.equipment}</p>
                 )}
+                <button
+                  className="save-btn"
+                  onClick={() => handleSubscribe(workout)}
+                  disabled={subscribing[workout.name]}
+                >
+                  {subscribing[workout.name]
+                    ? "Wird abonniert..."
+                    : "💾 Workout abonnieren"}
+                </button>
               </div>
             ))}
           </div>

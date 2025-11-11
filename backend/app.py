@@ -258,8 +258,11 @@ def login():
 
 @app.route('/workouts', methods=['GET'])
 def get_workouts():
+
     """Holt alle Workouts aus der Datenbank"""
     try:
+
+        print("get_workouts")
         workouts = Workout.query.all()
         return jsonify([{
             'id': w.id,
