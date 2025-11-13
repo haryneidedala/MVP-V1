@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import { useAuth } from "../contexts/AuthContext";
 import "./Login.css";
 
@@ -73,55 +75,63 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-form">
-        <h1 className="srst-heading">Serious Saturday</h1>
-
+    <div className="auth-container">
+      <div className="auth-card">
         <h2>Anmelden</h2>
-        <form onSubmit={handleSubmit}>
-          {error && <div className="error-message">{error}</div>}
+        <p className="auth-subtitle">Melde dich bei deinem Account an</p>
 
-          <div className="form-group">
-            <label htmlFor="email">E-Mail</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={credentials.email}
-              onChange={handleChange}
-              required
-              placeholder="test@example.com"
-            />
+        <div className="login-form">
+          <h1 className="srst-heading">Serious Saturday</h1>
+
+          <form onSubmit={handleSubmit}>
+            {error && <div className="error-message">{error}</div>}
+
+            <div className="form-group">
+              <label htmlFor="email">E-Mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={credentials.email}
+                onChange={handleChange}
+                required
+                placeholder="test@example.com"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Passwort</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
+                required
+                placeholder="password123"
+              />
+            </div>
+
+            <button type="submit" className="login-button" disabled={loading}>
+              {loading ? "Lade..." : "Anmelden"}
+            </button>
+          </form>
+
+          <div className="test-credentials">
+            <h4>Test-Zugangsdaten:</h4>
+            <p>E-Mail: test@example.com</p>
+            <p>Passwort: password123</p>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Passwort</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={credentials.password}
-              onChange={handleChange}
-              required
-              placeholder="password123"
-            />
+          <div className="auth-footer">
+            <p>
+              Noch keinen Account?{" "}
+              <Link to="/register" className="auth-link">
+                Jetzt registrieren
+              </Link>
+            </p>
           </div>
-
-          <button type="submit" className="login-button" disabled={loading}>
-            {loading ? "Lade..." : "Anmelden"}
-          </button>
-        </form>
-
-        <div className="test-credentials">
-          <h4>Test-Zugangsdaten:</h4>
-          <p>E-Mail: test@example.com</p>
-          <p>Passwort: password123</p>
         </div>
-
-        <h2 className="srst-heading">srst.</h2>
-        <p className="register-link">
-          Noch kein Konto? <span>Registrieren</span>
-        </p>
       </div>
     </div>
   );

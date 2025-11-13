@@ -69,7 +69,7 @@ const ExternalWorkoutList = ({ onWorkoutSubscribed }) => {
 
       // Fürs Erste: Sende eine einfache Subscribe-Anfrage
       console.log("Exercise", exercise);
-      const result = await subscribeToWorkout(userId, exercise.workout_id);
+      const result = await subscribeToWorkout(userId, exercise.id);
 
       if (result.success) {
         // Erfolgreich abonniert
@@ -176,16 +176,16 @@ const ExternalWorkoutList = ({ onWorkoutSubscribed }) => {
               <div key={index} className="workout-item">
                 <h4>{workout.name}</h4>
                 <div className="workout-meta">
-                  <span className="muscle">{workout.muscle}</span>
-                  <span className="type">{workout.type}</span>
+                  <span className="muscle">
+                    {"TODO workout.muscle in Tabelle aufnehmen"}
+                  </span>
+                  <span className="type">{workout.category}</span>
                   <span className="difficulty">{workout.difficulty}</span>
                 </div>
-                {workout.instructions && (
-                  <p className="instructions">{workout.instructions}</p>
+                {workout.description && (
+                  <p className="instructions">{workout.description}</p>
                 )}
-                {workout.equipment && (
-                  <p className="equipment">Gerät: {workout.equipment}</p>
-                )}
+
                 <button
                   className="save-btn"
                   onClick={() => handleSubscribe(workout)}

@@ -13,7 +13,6 @@ print(jwt.__version__)
 
 load_dotenv()
 
-
 JWT_SECRET = os.environ.get("JWT_SECRET", "serious-app-serious-saturday")
 JWT_ISSUER = "serious-saturday-api"
 ACCESS_TTL = 15 * 60  # 15 minutes
@@ -67,11 +66,10 @@ class Workout(db.Model):
     description = db.Column(db.Text)
     duration = db.Column(db.Integer)
     difficulty = db.Column(db.Enum('Anfänger', 'Fortgeschritten', 'Profi'))
-    category = db.Column(db.String(50))  # Neues Feld für Kategorie
-    api_exercise_id = db.Column(db.String(100))  # ID von API Ninjas
+    category = db.Column(db.String(50))
+    api_exercise_id = db.Column(db.String(100))
     created_at = db.Column(db.DateTime, default=datetime.now)
 
-    # Relationship zu Usern
     subscribed_users = db.relationship(
         'User',
         secondary=user_workouts,
@@ -82,10 +80,10 @@ class Workout(db.Model):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
-    hash_password = db.Column(db.String(255))  # Länger für pbkdf2
+    name = db.Column(db.String(100))  # Name-Feld hinzugefügt
+    hash_password = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.now)
 
-    # Relationship zu Workouts
     subscribed_workouts = db.relationship(
         'Workout',
         secondary=user_workouts,
@@ -93,7 +91,17 @@ class User(db.Model):
     )
 
 
+# Datenbank initialisieren und Name-Spalte hinzufügen falls nötig
 with app.app_context():
+    try:
+        # Versuche die name-Spalte hinzuzufügen
+        db.session.execute('ALTER TABLE user ADD COLUMN name VARCHAR(100)')
+        db.session.commit()
+        print("Name-Spalte zur User-Tabelle hinzugefügt")
+    except Exception as e:
+        print(f"Spalte existiert bereits oder Fehler: {e}")
+        db.session.rollback()
+
     db.create_all()
 
 
@@ -114,22 +122,7 @@ class WorkoutService:
 
             headers = {'X-Api-Key': API_NINJAS_KEY}
 
-            # DEBUG: API-Key und Parameter prüfen
-            print(f"=== API REQUEST DEBUG ===")
-            print(f"API Key vorhanden: {bool(API_NINJAS_KEY)}")
-            print(f"API Key (erste 5 Zeichen): {API_NINJAS_KEY[:5] if API_NINJAS_KEY else 'NONE'}")
-            print(f"URL: {url}")
-            print(f"Parameter: {params}")
-            print(f"Headers: {headers}")
-
             response = requests.get(url, headers=headers, params=params, timeout=10)
-
-            # DEBUG: Response Details
-            print(f"=== API RESPONSE DEBUG ===")
-            print(f"Status Code: {response.status_code}")
-            print(f"Response Headers: {dict(response.headers)}")
-            print(f"Response Text: {response.text[:500]}...")  # Nur erste 500 Zeichen
-            print(f"=== END DEBUG ===")
 
             if response.status_code == 200:
                 return response.json()
@@ -145,14 +138,12 @@ class WorkoutService:
         """Speichert Exercises in der Datenbank"""
         saved_count = 0
         for exercise in exercises_data:
-            # Prüfe ob Exercise bereits existiert
             existing = Workout.query.filter_by(
                 name=exercise.get('name'),
-                api_exercise_id=exercise.get('name')  # Verwende Name als ID da keine echte ID vorhanden
+                api_exercise_id=exercise.get('name')
             ).first()
 
             if not existing:
-                # Mappe Schwierigkeit
                 difficulty_map = {
                     'beginner': 'Anfänger',
                     'intermediate': 'Fortgeschritten',
@@ -165,7 +156,7 @@ class WorkoutService:
                     difficulty=difficulty_map.get(exercise.get('difficulty', 'beginner'), 'Anfänger'),
                     category=exercise.get('type', 'Allgemein'),
                     api_exercise_id=exercise.get('name'),
-                    duration=10  # Standardwert, kann angepasst werden
+                    duration=10
                 )
                 db.session.add(new_workout)
                 saved_count += 1
@@ -217,23 +208,32 @@ class WorkoutService:
 @app.post("/register")
 def register():
     data = request.get_json() or {}
+    print(f"Registrierungsdaten erhalten: {data}")
+
     email = (data.get("email") or "").strip().lower()
     password = data.get("password") or ""
+    name = data.get("name") or ""  # Name-Feld hinzugefügt
 
     if not email or not password:
+        print("Fehler: Email und Passwort werden benötigt")
         return jsonify({"error": "Email und Passwort werden benötigt"}), 400
 
     user = User.query.filter_by(email=email).first()
     if user:
+        print(f"Benutzer {email} existiert bereits")
         return jsonify({"error": "Benutzer existiert bereits"}), 400
 
     pwd_hash = generate_password_hash(password, method="pbkdf2:sha256", salt_length=16)
-    new_user = User(email=email, hash_password=pwd_hash)
+    new_user = User(email=email, name=name, hash_password=pwd_hash)  # Name wird gespeichert
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"ok": True, "message": "Benutzer erfolgreich erstellt"})
-
+    print(f"Benutzer erfolgreich erstellt: {email}")
+    return jsonify({
+        "ok": True,
+        "message": "Benutzer erfolgreich erstellt",
+        "user_id": new_user.id
+    })
 
 @app.post("/login")
 def login():
@@ -251,18 +251,16 @@ def login():
     resp = make_response({
         "access_token": access,
         "user_id": user.id,
-        "email": user.email
+        "email": user.email,
+        "name": user.name  # Name in Login-Antwort hinzufügen
     })
     return resp
 
 
+# Die restlichen Routes bleiben gleich...
 @app.route('/workouts', methods=['GET'])
 def get_workouts():
-
-    """Holt alle Workouts aus der Datenbank"""
     try:
-
-        print("get_workouts")
         workouts = Workout.query.all()
         return jsonify([{
             'id': w.id,
@@ -277,10 +275,8 @@ def get_workouts():
         return jsonify({'message': 'Fehler beim Abrufen der Workouts'}), 500
 
 
-
 @app.route('/workouts/api', methods=['GET'])
 def get_exercises_from_api():
-    """Holt Exercises von API Ninjas und speichert sie"""
     try:
         muscle = request.args.get('muscle')
         difficulty = request.args.get('difficulty')
@@ -292,16 +288,14 @@ def get_exercises_from_api():
         return jsonify({
             'message': f'{saved_count} neue Exercises gespeichert',
             'total_from_api': len(exercises),
-            'exercises': exercises[:10]  # Nur erste 10 anzeigen
+            'exercises': exercises[:10]
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 
-# NEUE ROUTE HIER EINFÜGEN
 @app.route('/external-workouts', methods=['GET'])
 def get_external_workouts():
-    """Holt Exercises direkt von API Ninjas ohne sie in der DB zu speichern"""
     try:
         muscle = request.args.get('muscle')
         difficulty = request.args.get('difficulty')
@@ -316,9 +310,9 @@ def get_external_workouts():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/workouts/subscribe', methods=['POST'])
 def subscribe_workout():
-    """Abonniert ein Workout für den eingeloggten User"""
     try:
         data = request.get_json()
         user_id = data.get('user_id')
@@ -336,7 +330,6 @@ def subscribe_workout():
 
 @app.route('/workouts/unsubscribe', methods=['POST'])
 def unsubscribe_workout():
-    """Entfernt Workout-Abonnement"""
     try:
         data = request.get_json()
         user_id = data.get('user_id')
@@ -354,7 +347,6 @@ def unsubscribe_workout():
 
 @app.route('/user/<int:user_id>/workouts', methods=['GET'])
 def get_user_workouts(user_id):
-    """Holt alle abonnierten Workouts eines Users"""
     try:
         workouts = WorkoutService.get_user_workouts(user_id)
         return jsonify([{
@@ -371,7 +363,6 @@ def get_user_workouts(user_id):
 
 @app.route('/workouts', methods=['POST'])
 def create_workout():
-    """Erstellt ein neues Workout (manuell)"""
     try:
         data = request.get_json()
         workout = Workout(
@@ -393,7 +384,6 @@ def create_workout():
 def create_tables():
     db.create_all()
 
-    # Füge einige Beispiel-Workouts hinzu falls keine vorhanden
     if Workout.query.count() == 0:
         sample_workouts = [
             Workout(name="Basic Training", description="Einfaches Ganzkörpertraining",
@@ -404,8 +394,8 @@ def create_tables():
         db.session.add_all(sample_workouts)
         db.session.commit()
 
-print(f"API_NINJAS_KEY: {API_NINJAS_KEY}")
 
+print(f"API_NINJAS_KEY: {API_NINJAS_KEY}")
 
 if __name__ == "__main__":
     app.run(port=os.getenv("PORT", 5001), debug=True, host="0.0.0.0")

@@ -8,6 +8,7 @@ import {
 import { useAuth } from "./contexts/AuthContext";
 import Dashboard from "./Komponenten/Dashboard";
 import Login from "./Komponenten/Login";
+import Register from "./Komponenten/Register";
 import "./App.css";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             path="/login"
             element={!user ? <Login /> : <Navigate to="/" replace />}
           />
+          <Route path="/register" element={<Register />} />
           <Route
             path="/"
             element={user ? <Dashboard /> : <Navigate to="/login" replace />}

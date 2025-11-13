@@ -83,7 +83,6 @@
   text-align: center;
   margin-top: 20px;
   color: #ffffff;
-;
 }
 
 .register-link span {
@@ -93,7 +92,7 @@
 }
 
 .srst-heading {
-  font-family: 'Orbitron', sans-serif; /* passt gut zu "serious" vibes */
+  font-family: "Orbitron", sans-serif; /* passt gut zu "serious" vibes */
   font-size: 3.5rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -101,12 +100,69 @@
   color: #000000a7; /* Basis: schwarz */
 
   /* Metallic-Grau Verlauf */
-  background: linear-gradient(90deg, #2f2f2f, #7f7f7f, #b3b3b3, #7f7f7f, #1a1a1a);
+  background: linear-gradient(
+    90deg,
+    #2f2f2f,
+    #7f7f7f,
+    #b3b3b3,
+    #7f7f7f,
+    #1a1a1a
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
   /* leichter 3D-Glanz */
-  text-shadow: 
-    1px 2px 3px rgba(0,0,0,0.8),
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8),
     -3px -3px 1px rgba(82, 80, 96, 0.3);
+}
+/* Login.css - Ergänzungen */
+.srst-heading {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.login-form {
+  width: 100%;
+}
+
+.test-credentials {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.test-credentials h4 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.test-credentials p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover:not(:disabled) {
+  background-color: #5a6fd8;
+}
+
+.login-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

@@ -13,7 +13,9 @@ export const fetchExercisesFromAPI = async (params = {}) => {
     if (params.type) queryParams.append("type", params.type);
     if (params.difficulty) queryParams.append("difficulty", params.difficulty);
 
-    const url = `${API_BASE_URL}/external-workouts?${queryParams.toString()}`;
+    // TODO: GET /workouts muss auch queryParams unterstützden
+    // const url = `${API_BASE_URL}/workouts?${queryParams.toString()}`;
+    const url = `${API_BASE_URL}/workouts`;
     console.log("API Call:", url);
 
     const response = await fetch(url);
@@ -24,7 +26,7 @@ export const fetchExercisesFromAPI = async (params = {}) => {
 
     const data = await response.json();
     console.log("API Response:", data);
-    return data.exercises || [];
+    return data || [];
   } catch (error) {
     console.error("Error fetching external workouts:", error);
     throw error;

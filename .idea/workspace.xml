@@ -7,11 +7,13 @@
     <list default="true" id="ba1b2d75-a9dc-43d7-b76f-efdb0c857bc3" name="Changes" comment="25-11-04">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Dashboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/instance/profiles.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/instance/profiles.db-journal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutlist.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutlist.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutsPopUp.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutsPopUp.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutsPopUp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutsPopUp.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Login.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/services/externalWorkoutsAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/externalWorkoutsAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +42,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:haryneidedala/MVP-V1.git&quot;,
-    &quot;accountId&quot;: &quot;acca58d8-e83d-4c34-bd99-a60361b0a834&quot;
+    &quot;accountId&quot;: &quot;ea8a0ce7-38a8-49ac-bf26-a334be49a10f&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -85,7 +87,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-2ee2454479a3-9cdd278e9d02-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.25410.122" />
+        <option value="bundled-python-sdk-f78a9d071105-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26574.90" />
       </set>
     </attachedChunks>
   </component>
@@ -226,7 +228,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762274098251</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="25-11-04">
+      <option name="closed" value="true" />
+      <created>1762877094117</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1762877094117</updated>
+    </task>
+    <task id="LOCAL-00018" summary="25-11-04">
+      <option name="closed" value="true" />
+      <created>1762877099712</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1762877099712</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
