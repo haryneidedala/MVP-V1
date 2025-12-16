@@ -58,13 +58,21 @@ const Login = () => {
 
       const data = await response.json();
 
-      console.log(data);
+      console.log("Login Response:", data);
 
       if (response.ok) {
-        login(data.user_id, data.access_token);
+        // ✅ KORREKT: User-Objekt erstellen und übergeben
+        const userData = {
+          id: data.user_id,
+          email: data.email,
+          name: data.name,
+        };
+
+        console.log("UserData für Login:", userData);
+        login(userData, data.access_token);
         navigate("/");
       } else {
-        setError(data.message || "Login fehlgeschlagen");
+        setError(data.error || "Login fehlgeschlagen");
       }
     } catch (error) {
       console.error("Login error:", error);

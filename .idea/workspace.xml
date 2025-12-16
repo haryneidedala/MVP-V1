@@ -4,17 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba1b2d75-a9dc-43d7-b76f-efdb0c857bc3" name="Changes" comment="25-11-04">
+    <list default="true" id="ba1b2d75-a9dc-43d7-b76f-efdb0c857bc3" name="Changes" comment="25-11-14">
+      <change afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/instance/profiles.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/instance/profiles.db-journal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutlist.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutlist.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/instance/profiles.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/instance/profiles.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Auth.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Auth.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExerciseSearchModal.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExerciseSearchModal.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutlist.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutlist.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutsPopUp.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutsPopUp.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutsPopUp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/ExternalWorkoutsPopUp.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Login.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Login.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Komponenten/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Komponenten/Register.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/externalWorkoutsAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/externalWorkoutsAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/externalWorkoutsAPI.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,12 +50,12 @@
     &quot;assignee&quot;: &quot;haryneidedala&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:haryneidedala/MVP-V1.git&quot;,
-    &quot;accountId&quot;: &quot;ea8a0ce7-38a8-49ac-bf26-a334be49a10f&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:haryneidedala/MVP-V1.git",
+    "accountId": "acca58d8-e83d-4c34-bd99-a60361b0a834"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/models.py" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -87,7 +98,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-f78a9d071105-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26574.90" />
+        <option value="bundled-python-sdk-2ee2454479a3-9cdd278e9d02-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.25410.122" />
       </set>
     </attachedChunks>
   </component>
@@ -244,7 +255,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762877099712</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="25-11-14">
+      <option name="closed" value="true" />
+      <created>1763078001911</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1763078001911</updated>
+    </task>
+    <task id="LOCAL-00020" summary="25-11-14">
+      <option name="closed" value="true" />
+      <created>1763078010748</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1763078010748</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,6 +293,7 @@
     <MESSAGE value="updated backend" />
     <MESSAGE value="fixed backend" />
     <MESSAGE value="25-11-04" />
-    <option name="LAST_COMMIT_MESSAGE" value="25-11-04" />
+    <MESSAGE value="25-11-14" />
+    <option name="LAST_COMMIT_MESSAGE" value="25-11-14" />
   </component>
 </project>

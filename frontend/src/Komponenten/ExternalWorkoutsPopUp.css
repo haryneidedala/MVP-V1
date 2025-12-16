@@ -1,4 +1,223 @@
-/* Overlay - wird nur angezeigt wenn Popup geöffnet */
+.local-workout-list {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.filter-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.search-box {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.filter-selectors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.filter-group select {
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.workouts-container {
+  margin-top: 30px;
+}
+
+.workouts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.workouts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.workout-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.workout-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.workout-header h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.workout-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.workout-meta span {
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.difficulty-anfänger {
+  background: #28a745;
+  color: white;
+}
+
+.difficulty-fortgeschritten {
+  background: #ffc107;
+  color: #000;
+}
+
+.difficulty-profi {
+  background: #dc3545;
+  color: white;
+}
+
+.category {
+  background: #c14242;
+  color: white;
+}
+
+.duration {
+  background: #17a2b8;
+  color: white;
+}
+
+.workout-description {
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.subscribe-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.subscribe-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.subscribe-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading,
+.no-workouts {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 768px) {
+  .filter-selectors {
+    grid-template-columns: 1fr;
+  }
+
+  .workouts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ExternalWorkoutsPopUp.css - Stile für das Popup, nicht für die Liste */
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -13,11 +232,6 @@
   z-index: 1000;
   padding: 20px;
   animation: fadeIn 0.2s ease-out;
-}
-
-/* Wenn Popup geschlossen, wird overlay komplett ausgeblendet */
-.popup-overlay[style*="display: none"] {
-  display: none !important;
 }
 
 @keyframes fadeIn {
@@ -93,12 +307,8 @@
   transform: scale(1.1);
 }
 
-.close-popup:active {
-  transform: scale(0.95);
-}
-
 .popup-body {
-  padding: 0;
+  padding: 20px;
 }
 
 /* Verhindere Scrollen im Hintergrund wenn Popup offen */

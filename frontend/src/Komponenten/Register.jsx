@@ -58,7 +58,9 @@ const Register = () => {
     try {
       setLoading(true);
 
-      // Echte Registrierung
+      console.log("Sende Registrierungsdaten:", formData);
+
+      // Echte Registrierung mit Backend
       const response = await fetch("http://localhost:5001/register", {
         method: "POST",
         headers: {
@@ -71,40 +73,61 @@ const Register = () => {
         }),
       });
 
-      // Prüfe den Content-Type der Antwort
-      const contentType = response.headers.get("content-type");
+      console.log("Registrierungs-Response Status:", response.status);
 
-      if (!contentType || !contentType.includes("application/json")) {
-        // Wenn die Antwort kein JSON ist, handelt es sich wahrscheinlich um einen Fehler
-        const text = await response.text();
-        console.error("Server returned non-JSON response:", text);
-        throw new Error("Serverfehler: Ungültige Antwort vom Server");
+      let data;
+      try {
+        data = await response.json();
+        console.log("Registrierungs-Response Daten:", data);
+      } catch (jsonError) {
+        console.error("JSON Parse Error:", jsonError);
+        throw new Error("Ungültige Antwort vom Server");
       }
-
-      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Registrierung fehlgeschlagen");
+        throw new Error(
+          data.error || data.message || "Registrierung fehlgeschlagen"
+        );
       }
 
-      // Automatisch einloggen nach erfolgreicher Registrierung
-      if (data.token && data.user) {
-        login(data.user, data.token);
+      // Nach erfolgreicher Registrierung automatisch einloggen
+      console.log("Versuche automatischen Login...");
+      const loginResponse = await fetch("http://localhost:5001/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      console.log("Login-Response Status:", loginResponse.status);
+
+      const loginData = await loginResponse.json();
+      console.log("Login-Response Daten:", loginData);
+
+      if (loginResponse.ok) {
+        // Erfolgreich eingeloggt nach Registrierung
+        const userData = {
+          id: loginData.user_id,
+          email: formData.email,
+          name: formData.name,
+        };
+
+        login(userData, loginData.access_token);
         navigate("/dashboard");
+      } else {
+        throw new Error(
+          loginData.error ||
+            loginData.message ||
+            "Automatischer Login nach Registrierung fehlgeschlagen"
+        );
       }
     } catch (err) {
       console.error("Registrierungsfehler:", err);
-
-      // Spezifische Fehlermeldungen basierend auf Fehlertyp
-      if (err.message.includes("Failed to fetch")) {
-        setError(
-          "Verbindungsfehler. Stelle sicher, dass das Backend auf localhost:5001 läuft."
-        );
-      } else if (err.message.includes("Ungültige Antwort")) {
-        setError("Serverfehler. Das Backend antwortet nicht korrekt.");
-      } else {
-        setError(err.message || "Registrierung fehlgeschlagen");
-      }
+      setError(err.message || "Registrierung fehlgeschlagen");
     } finally {
       setLoading(false);
     }

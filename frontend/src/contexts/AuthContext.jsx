@@ -3,7 +3,11 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };
 
 export const AuthProvider = ({ children }) => {
@@ -11,62 +15,61 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    console.log("🔄 AuthProvider useEffect gestartet");
+
+    const token = localStorage.getItem("authToken");
     const userData = localStorage.getItem("user");
+
+    console.log("📁 localStorage Inhalt:", {
+      token: token,
+      userData: userData,
+      alleKeys: Object.keys(localStorage),
+    });
 
     if (token && userData) {
       try {
-        setUser(JSON.parse(userData));
+        const parsedUser = JSON.parse(userData);
+        console.log("✅ User erfolgreich geparsed:", parsedUser);
+        setUser(parsedUser);
       } catch (error) {
-        console.error("Fehler beim Parsen der Benutzerdaten:", error);
-        localStorage.removeItem("token");
+        console.error("❌ Fehler beim Parsen:", error);
+        localStorage.removeItem("authToken");
         localStorage.removeItem("user");
       }
+    } else {
+      console.log("ℹ️ Keine User-Daten im localStorage gefunden");
     }
 
+    console.log("🏁 AuthProvider Loading beendet");
     setLoading(false);
   }, []);
 
   const login = (userData, token) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
+    console.log("🔐 AuthContext login called:", { userData, token });
+
+    // Stelle sicher, dass userData ein Objekt ist
+    if (typeof userData === "object" && userData !== null) {
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData);
+      console.log("✅ User erfolgreich gespeichert");
+    } else {
+      console.error("❌ Ungültiges userData Format:", userData);
+    }
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    console.log("🚪 Logging out...");
+    localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     setUser(null);
-  };
-
-  // In deinem AuthContext
-  const register = async (name, email, password) => {
-    // Hier die tatsächliche Registrierungslogik
-    const response = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      setUser(data.user);
-      setIsAuthenticated(true);
-      return data;
-    } else {
-      throw new Error(data.message || "Registrierung fehlgeschlagen");
-    }
   };
 
   const value = {
     user,
     login,
     logout,
+    loading,
   };
 
   return (
