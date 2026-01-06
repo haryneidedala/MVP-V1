@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Timer from "./Timer";
 import ExternalWorkoutsPopup from "./ExternalWorkoutsPopUp";
 import {
   fetchSubscribedWorkouts,
@@ -39,11 +40,13 @@ ChartJS.register(
 const Dashboard = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [subscribedWorkouts, setSubscribedWorkouts] = useState([]);
+  const [activeTimer, setActiveTimer] = useState(null);
   const [workoutsLoading, setWorkoutsLoading] = useState(true);
   const [error, setError] = useState("");
   const [streakStats, setStreakStats] = useState(null);
   const [streaksLoading, setStreaksLoading] = useState(false);
   const [weeklyData, setWeeklyData] = useState([]);
+  const [streakHistoryData, setStreakHistoryData] = useState([]);
   const navigate = useNavigate();
 
   const { user, logout, loading } = useAuth();
@@ -123,13 +126,20 @@ const Dashboard = () => {
     },
     scales: {
       y: {
+        beginAtZero: true,
         ticks: {
           color: "#000000",
+        },
+        grid: {
+          color: "rgba(0,0,0,0.1)",
         },
       },
       x: {
         ticks: {
           color: "#000000",
+        },
+        grid: {
+          color: "rgba(0,0,0,0.1)",
         },
       },
     },
@@ -142,6 +152,7 @@ const Dashboard = () => {
       loadSubscribedWorkouts();
       loadStreakStats();
       loadWeeklyData();
+      loadStreakHistoryData();
     } else {
       console.log("User nicht verfügbar:", user);
       setWorkoutsLoading(false);
@@ -160,7 +171,7 @@ const Dashboard = () => {
   const refreshAccessToken = async () => {
     try {
       console.log("🔄 Versuche Token zu refreshen...");
-      const response = await fetch("http://localhost:5001/refresh", {
+      const response = await fetch("http://localhost:5002/refresh", {
         method: "POST",
         credentials: "include",
       });
@@ -234,7 +245,7 @@ const Dashboard = () => {
     try {
       setStreaksLoading(true);
       const response = await makeAuthenticatedRequest(
-        "http://localhost:5001/streaks/stats"
+        "http://localhost:5002/streaks/stats"
       );
 
       if (response.ok) {
@@ -253,29 +264,178 @@ const Dashboard = () => {
 
   const loadWeeklyData = async () => {
     try {
-      const response = await makeAuthenticatedRequest(
-        "http://localhost:5001/streaks"
-      );
+      // Simuliere wöchentliche Daten für das Diagramm
+      const mockWeeklyData = [
+        { day: "Mo", count: 3 },
+        { day: "Di", count: 5 },
+        { day: "Mi", count: 2 },
+        { day: "Do", count: 4 },
+        { day: "Fr", count: 6 },
+        { day: "Sa", count: 1 },
+        { day: "So", count: 3 },
+      ];
 
-      if (response.ok) {
-        const data = await response.json();
-
-        // Simuliere wöchentliche Daten für das Diagramm
-        const mockWeeklyData = [
-          { day: "Mo", count: 3 },
-          { day: "Di", count: 5 },
-          { day: "Mi", count: 2 },
-          { day: "Do", count: 4 },
-          { day: "Fr", count: 6 },
-          { day: "Sa", count: 1 },
-          { day: "So", count: 3 },
-        ];
-
-        setWeeklyData(mockWeeklyData);
-      }
+      setWeeklyData(mockWeeklyData);
     } catch (err) {
       console.error("Fehler beim Laden der Wochen-Daten:", err);
+      // Fallback Mock-Daten
+      const mockWeeklyData = [
+        { day: "Mo", count: 2 },
+        { day: "Di", count: 4 },
+        { day: "Mi", count: 1 },
+        { day: "Do", count: 3 },
+        { day: "Fr", count: 5 },
+        { day: "Sa", count: 0 },
+        { day: "So", count: 2 },
+      ];
+      setWeeklyData(mockWeeklyData);
     }
+  };
+
+  const loadStreakHistoryData = async () => {
+    try {
+      // Erstelle Mock-Daten für die letzten 30 Tage
+      const last30Days = Array.from({ length: 30 }, (_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() - (29 - i));
+        return {
+          date: date.toISOString().split("T")[0],
+          day: date.getDate(),
+          count: Math.floor(Math.random() * 3), // 0-2 Workouts pro Tag
+        };
+      });
+
+      setStreakHistoryData(last30Days);
+    } catch (err) {
+      console.error("Fehler beim Laden der Streak-Historie:", err);
+    }
+  };
+
+  const startTimerForWorkout = (workout) => {
+    console.log("Timer gestartet für:", workout.name);
+    setActiveTimer({
+      workout: workout,
+      duration: (workout.duration || 30) * 60, // Minuten zu Sekunden
+      startTime: new Date(),
+    });
+  };
+
+  const handleTimerComplete = async () => {
+    if (!activeTimer) return;
+
+    try {
+      // Erfolgsmeldung anzeigen
+      alert(
+        `🎉 Super! Du hast "${activeTimer.workout.name}" erfolgreich abgeschlossen!`
+      );
+
+      // Automatisch Streak eintragen
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      const response = await fetch("http://localhost:5002/streaks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          workout_id: activeTimer.workout.id,
+          user_id: user?.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("✅ Streak automatisch eingetragen:", data);
+        // Optional: Erfolgs-Overlay anzeigen
+        showSuccessOverlay();
+      } else {
+        console.error("❌ Fehler beim automatischen Streak-Eintrag:", data);
+      }
+
+      // Statistiken neu laden
+      loadStreakStats();
+    } catch (error) {
+      console.error("Fehler nach Timer-Ablauf:", error);
+    } finally {
+      // Timer zurücksetzen
+      setActiveTimer(null);
+    }
+  };
+
+  const handleTimerCancel = () => {
+    console.log("Timer abgebrochen");
+    setActiveTimer(null);
+  };
+
+  const showSuccessOverlay = () => {
+    // Erstelle ein temporäres Erfolgs-Overlay
+    const successDiv = document.createElement("div");
+    successDiv.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001;
+    animation: fadeIn 0.3s;
+  `;
+
+    successDiv.innerHTML = `
+    <div style="
+      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      color: white;
+      max-width: 400px;
+      animation: popIn 0.5s;
+    ">
+      <h2 style="margin-top: 0; font-size: 2rem;">🎉 Erfolg!</h2>
+      <p style="font-size: 1.2rem;">Du hast "${activeTimer?.workout?.name}" abgeschlossen!</p>
+      <p>Dein Streak wurde aktualisiert.</p>
+      <button onclick="this.parentElement.parentElement.remove()" style="
+        background: white;
+        color: #4CAF50;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 20px;
+      ">
+        Weiter
+      </button>
+    </div>
+  `;
+
+    document.body.appendChild(successDiv);
+
+    // Nach 3 Sekunden automatisch entfernen
+    setTimeout(() => {
+      if (document.body.contains(successDiv)) {
+        successDiv.remove();
+      }
+    }, 3000);
+
+    // Füge CSS für Animationen hinzu
+    const style = document.createElement("style");
+    style.textContent = `
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  `;
+    document.head.appendChild(style);
   };
 
   const handleUnsubscribe = async (workoutId) => {
@@ -317,7 +477,7 @@ const Dashboard = () => {
   const handleLogWorkout = async (workoutId, workoutName) => {
     try {
       const response = await makeAuthenticatedRequest(
-        "http://localhost:5001/streaks",
+        "http://localhost:5002/streaks",
         {
           method: "POST",
           body: JSON.stringify({
@@ -393,26 +553,27 @@ const Dashboard = () => {
     };
   };
 
+  // FEHLENDE FUNKTION: getStreakProgressData
   const getStreakProgressData = () => {
-    if (!streakStats) return null;
-
-    const last30Days = Array.from({ length: 30 }, (_, i) => {
+    // Erstelle Daten für die letzten 30 Tage
+    const labels = Array.from({ length: 30 }, (_, i) => {
       const date = new Date();
       date.setDate(date.getDate() - (29 - i));
-      return date.toISOString().split("T")[0];
+      return date.getDate().toString(); // Nur der Tag (1-31)
     });
 
-    const streakDatesSet = new Set(streakStats.streak_dates || []);
+    // Verwende die Mock-Daten oder erstelle basierend auf StreakStats
+    const data = streakHistoryData.map((item) => item.count);
 
     return {
-      labels: last30Days.map((date) => date.split("-")[2]), // Nur Tag
+      labels: labels,
       datasets: [
         {
-          label: "Workouts",
-          data: last30Days.map((date) => (streakDatesSet.has(date) ? 1 : 0)),
+          label: "Workouts pro Tag",
+          data: data,
           borderColor: "rgba(129, 71, 236, 1)",
           backgroundColor: "rgba(129, 71, 236, 0.1)",
-          tension: 0.4,
+          tension: 0.3,
           fill: true,
         },
       ],
@@ -461,14 +622,14 @@ const Dashboard = () => {
       <div className="dashboard-grid">
         {/* Stats Card mit Streaks */}
         <div className="dashboard-card">
-          <h3>🔥 Deine Streak-Statistiken</h3>
+          <h3>👑 Deine Streak-Statistiken</h3>
 
           {streaksLoading ? (
             <div className="loading-stats">Lade Streaks...</div>
           ) : streakStats ? (
             <div className="streak-stats-dashboard">
               <div className="stat-row">
-                <span className="stat-label">🔥 Aktueller Streak</span>
+                <span className="stat-label">👑 Aktueller Streak</span>
                 <span className="stat-value highlight">
                   {streakStats.current_streak} Tage
                 </span>
@@ -489,7 +650,7 @@ const Dashboard = () => {
               </div>
 
               <div className="stat-row">
-                <span className="stat-label">📅 Heute geloggt</span>
+                <span className="stat-label">📅 Heute eingeloggt</span>
                 <span className="stat-value">
                   {streakStats.today_logged ? "✅ Ja" : "❌ Noch nicht"}
                 </span>
@@ -654,7 +815,7 @@ const Dashboard = () => {
           <div className="chart-card full-width">
             <h3>30-Tage Übersicht</h3>
             <div className="chart-container">
-              {streakStats && getStreakProgressData() ? (
+              {streakHistoryData.length > 0 ? (
                 <Line data={getStreakProgressData()} options={lineOptions} />
               ) : (
                 <div className="no-data-chart">
@@ -758,11 +919,9 @@ const Dashboard = () => {
                 <div className="workout-actions">
                   <button
                     className="btn btn-primary btn-small"
-                    onClick={() => {
-                      alert(`Workout "${workout.name}" wird gestartet!`);
-                    }}
+                    onClick={() => startTimerForWorkout(workout)}
                   >
-                    🏁 Starten
+                    ⏱️ Timer starten
                   </button>
                   <button
                     className="btn btn-secondary btn-small"
@@ -791,6 +950,16 @@ const Dashboard = () => {
         onClose={handleClosePopup}
         userId={user?.id}
       />
+
+      {/* Timer Overlay */}
+      {activeTimer && (
+        <Timer
+          workout={activeTimer.workout}
+          initialDuration={activeTimer.duration}
+          onComplete={handleTimerComplete}
+          onCancel={handleTimerCancel}
+        />
+      )}
     </div>
   );
 };

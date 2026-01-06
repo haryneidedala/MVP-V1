@@ -26,7 +26,7 @@ const LocalWorkoutList = ({ userId, onWorkoutSubscribed }) => {
       setLoading(true);
       setError("");
 
-      const response = await fetch("http://localhost:5001/workouts");
+      const response = await fetch("http://localhost:5002/workouts");
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -49,7 +49,7 @@ const LocalWorkoutList = ({ userId, onWorkoutSubscribed }) => {
     try {
       const token =
         localStorage.getItem("authToken") || localStorage.getItem("token");
-      const response = await fetch("http://localhost:5001/streaks", {
+      const response = await fetch("http://localhost:5002/streaks", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,7 +68,7 @@ const LocalWorkoutList = ({ userId, onWorkoutSubscribed }) => {
     try {
       const token =
         localStorage.getItem("authToken") || localStorage.getItem("token");
-      const response = await fetch("http://localhost:5001/streaks/stats", {
+      const response = await fetch("http://localhost:5002/streaks/stats", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -95,7 +95,7 @@ const LocalWorkoutList = ({ userId, onWorkoutSubscribed }) => {
       const token =
         localStorage.getItem("authToken") || localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5001/streaks", {
+      const response = await fetch("http://localhost:5002/streaks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +136,7 @@ const LocalWorkoutList = ({ userId, onWorkoutSubscribed }) => {
         return;
       }
 
-      const response = await fetch("http://localhost:5001/workouts/subscribe", {
+      const response = await fetch("http://localhost:5002/workouts/subscribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -288,7 +288,7 @@ const LocalWorkoutList = ({ userId, onWorkoutSubscribed }) => {
 
             {streakStats && (
               <div className="streak-stats">
-                <h3>🔥 Deine Streak-Statistik</h3>
+                <h3>👑 Deine Streak-Statistik</h3>
                 <div className="stats-grid">
                   <div className="stat-item">
                     <span className="stat-label">Aktueller Streak</span>
@@ -349,7 +349,7 @@ const LocalWorkoutList = ({ userId, onWorkoutSubscribed }) => {
                     onClick={() => handleLogWorkout(workout.id, workout.name)}
                     title="Workout als heute erledigt markieren"
                   >
-                    🔥 Streak: {getWorkoutStreak(workout.id)} Tage
+                    👑 Streak: {getWorkoutStreak(workout.id)} Tage
                   </button>
                 </div>
               ))}

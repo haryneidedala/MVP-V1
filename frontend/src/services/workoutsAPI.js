@@ -1,5 +1,5 @@
 // Erstelle services/workoutsAPI.js
-const API_BASE_URL = "http://localhost:5001";
+const API_BASE_URL = "http://localhost:5002";
 
 export const fetchSubscribedWorkouts = async (userId) => {
   try {

@@ -50,6 +50,57 @@ def create_jwt(sub: str, kind: str, ttl: int):
     return token, payload
 
 
+from functools import wraps
+
+
+def token_required(f):
+    """Decorator für Token-geschützte Endpoints"""
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = None
+        auth_header = request.headers.get('Authorization')
+
+        # Prüfe Authorization Header
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(' ')[1]
+            print(f"🔐 Token aus Header: {token[:30]}...")
+
+        # Prüfe Cookies
+        if not token:
+            token = request.cookies.get('access_token')
+            print(f"🍪 Token aus Cookie: {'Ja' if token else 'Nein'}")
+
+        if not token:
+            print("❌ Kein Token gefunden")
+            return jsonify({'error': 'Token fehlt'}), 401
+
+        try:
+            # Token dekodieren
+            payload = jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+            user_id_str = payload.get('sub')
+
+            if not user_id_str:
+                return jsonify({'error': 'Ungültiger Token'}), 401
+
+            # Konvertiere zu Integer und setze in request
+            request.user_id = int(user_id_str)
+            print(f"✅ Token validiert für User ID: {request.user_id}")
+
+        except jwt.ExpiredSignatureError:
+            print("❌ Token abgelaufen")
+            return jsonify({'error': 'Token abgelaufen'}), 401
+        except jwt.InvalidTokenError as e:
+            print(f"❌ Ungültiges Token: {e}")
+            return jsonify({'error': 'Ungültiges Token'}), 401
+        except Exception as e:
+            print(f"❌ Token Fehler: {e}")
+            return jsonify({'error': 'Token Fehler'}), 401
+
+        return f(*args, **kwargs)
+
+    return decorated_function
+
 db = SQLAlchemy(app)
 
 # Assoziationstabelle für M:N-Beziehung
@@ -720,7 +771,6 @@ def initialize_database():
 
 
 @app.route('/streaks', methods=['POST'])
-@app.route('/streaks', methods=['POST'])
 def add_streak():
     """Fügt einen Streak-Eintrag hinzu - mit Cookie-Fallback"""
     try:
@@ -985,11 +1035,72 @@ def refresh():
         print(traceback.format_exc())
         return jsonify({'error': str(e)}), 500
 
+
+@app.route('/streaks/weekly', methods=['GET'])
+@token_required
+def get_weekly_stats():
+    """Gibt wöchentliche Aktivitätsdaten zurück"""
+    try:
+        user_id = request.user_id  # Vom Decorator gesetzt
+        from datetime import datetime, timedelta
+
+        print(f"📊 Lade wöchentliche Daten für User {user_id}")
+
+        # Letzte 7 Tage berechnen
+        weekly_data = []
+        for i in range(6, -1, -1):  # Von vor 6 Tagen bis heute
+            date = datetime.now() - timedelta(days=i)
+            date_str = date.strftime('%Y-%m-%d')
+
+            # Zähle Streaks an diesem Tag
+            count = StreakExercise.query.filter(
+                StreakExercise.user_id == user_id,
+                db.func.date(StreakExercise.timestamp) == date_str
+            ).count()
+
+            # Deutsche Wochentage
+            german_days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
+            day_name = german_days[date.weekday()]
+
+            weekly_data.append({
+                'day': day_name,
+                'full_day': date.strftime('%A'),
+                'date': date_str,
+                'count': count,
+                'is_today': i == 0
+            })
+
+        # Zusätzliche Statistiken
+        total_this_week = sum(item['count'] for item in weekly_data)
+        active_days = sum(1 for item in weekly_data if item['count'] > 0)
+
+        # Besten Tag finden
+        best_day = max(weekly_data, key=lambda x: x['count']) if weekly_data else None
+
+        return jsonify({
+            'success': True,
+            'weekly_data': weekly_data,
+            'stats': {
+                'total_this_week': total_this_week,
+                'active_days': active_days,
+                'best_day': best_day['day'] if best_day and best_day['count'] > 0 else None,
+                'best_day_count': best_day['count'] if best_day else 0,
+                'average_per_day': round(total_this_week / 7, 1) if total_this_week > 0 else 0
+            }
+        })
+
+    except Exception as e:
+        print(f"❌ Fehler in get_weekly_stats: {str(e)}")
+        import traceback
+        print(traceback.format_exc())
+        return jsonify({'error': str(e)}), 500
+
+    
 print(f"API_NINJAS_KEY: {API_NINJAS_KEY}")
 
 # Manuell aufrufen oder beim Start
 if __name__ == "__main__":
     initialize_database()  # HINZUFÜGEN
-    app.run(port=os.getenv("PORT", 5001), debug=True, host="0.0.0.0")
+    app.run(port=os.getenv("PORT", 5002), debug=True, host="0.0.0.0")
 
 

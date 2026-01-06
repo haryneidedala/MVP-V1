@@ -51,7 +51,7 @@ const WorkoutList = () => {
         // Echter API-Aufruf
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:5001/user/${user}/workouts`,
+          `http://localhost:5002/user/${user}/workouts`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

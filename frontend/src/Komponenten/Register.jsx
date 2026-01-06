@@ -61,7 +61,7 @@ const Register = () => {
       console.log("Sende Registrierungsdaten:", formData);
 
       // Echte Registrierung mit Backend
-      const response = await fetch("http://localhost:5001/register", {
+      const response = await fetch("http://localhost:5002/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const Register = () => {
 
       // Nach erfolgreicher Registrierung automatisch einloggen
       console.log("Versuche automatischen Login...");
-      const loginResponse = await fetch("http://localhost:5001/login", {
+      const loginResponse = await fetch("http://localhost:5002/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

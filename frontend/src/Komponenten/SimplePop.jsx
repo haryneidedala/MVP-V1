@@ -8,7 +8,7 @@ const SimplePopup = () => {
   if (!isOpen) {
     return (
       <button className="btn btn-primary" onClick={() => setIsOpen(true)}>
-        🔍 Externe Workouts suchen
+        Externe Workouts suchen
       </button>
     );
   }

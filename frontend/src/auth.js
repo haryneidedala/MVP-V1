@@ -16,7 +16,7 @@ export const refreshAccessToken = async () => {
   try {
     console.log("🔄 Versuche Token zu refreshen...");
 
-    const response = await fetch("http://localhost:5001/refresh", {
+    const response = await fetch("http://localhost:5002/refresh", {
       method: "POST",
       credentials: "include", // Wichtig für Cookies
     });
